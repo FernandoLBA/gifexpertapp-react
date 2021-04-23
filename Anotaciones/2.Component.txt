@@ -1,0 +1,34 @@
+20/04/2021.
+
+GifExpertApp COMPONENT.
+
+Documentación de consulta:
+https://es.reactjs.org/docs/faq-structure.html
+
+Documentación sobre estructuras de proyectos y nombrar 
+componentes en React:
+https://hackernoon.com/structuring-projects-and-naming-components-in-react-1261b6e18d76
+
+1) De los directorios creados por React, vamos a borrar de la 
+carpeta src algunos de sus elementos:
+-App.css
+-App.js
+-App.test.js
+-logo.svg
+-reportWebVitals.js
+
+Abrimos el index.css de src y borramos su contenido.
+
+Abrimos el index.js y borramos lo que ya no se necesita, como 
+el import del component App que ya borramos, el webvitals, el 
+app.css, el tag de reactstrict.
+
+2) En la carpeta src crearemos el componente GifExpertApp.js.
+
+Crearemos un functional component y los exportaremos.
+
+3) Agregamos ciertos estilos al index.css.
+
+4) Abrimos el index.js e importamos el componente creado y lo 
+agregamos al reactDOM.render, el cual recibe el componente y el 
+contenedor que lo mostrará en el html.

@@ -1,0 +1,51 @@
+21/04/2021.
+
+COMPONENTE ADDCATEGORY.
+
+1) Creamos una carpeta components dentro de src, y dentro de la nueva carpeta creamos el componente AddCategory.js.
+
+2) En el componente AddCategory.js creamos el siguiente código:
+     import React, { useState } from 'react'
+
+     export const AddCategory = () => {
+
+          // Creamos un hook
+          const [ inputValue, setInputValue ] = useState( 'Hola mundo' );
+
+          const handleInputChange = ( e ) => {
+               setInputValue( e.target.value );
+          };
+
+          const handleSubmit = ( e ) => {
+               e.preventDefault();
+               console.log( 'Submit hecho' );
+          };
+
+          return (
+                    <form onSubmit={ handleSubmit }>
+                         <input
+                              type="text"
+                              value={ inputValue }
+                              onChange={ handleInputChange }
+                         />
+                    </form>
+          );
+     };
+
+-Creamos un Hook con el valor inicial Hola mundo.
+-Creamos un handleInputChange que capture lo que escribimos en 
+el input.
+-Creamos un handleSubmit que envíe el formulario.
+-El return solo debe retornar un elemento, normalmente usamos
+fragment, pero como estamos enviado un form, y eso cuenta como 
+un elemento, pues quitamos el fragment y dejamos el form.
+-El form captura el evento onSubmit y ejecuta el handleSubmit.
+-El input es de tipo texto, el valor que toma por defecto es 
+elque está en inputValue.
+-El evento onChange del input captura los cambios realizados, y 
+ejecuta handleInputChange, la cual mostrará los cambios 
+realizados dentro del input.
+
+Ahora hay que enviar el valor capturado en este componente y 
+enviarlo al componente padre GifExpertApp para que lo agregue al
+arreglo y lo renderice.

@@ -1,0 +1,19 @@
+20/04/2021.
+
+INICIO DE PROYECTO GIF-EXPERT-APP.
+
+1) Entramos a la carpeta REACT del curso, luego creamos una 
+nueva app de react con el nombre gif-expert-app:
+     npx create-react-app gif-expert-app
+
+2) Vamos a la página de giphy, crear una cuenta sino la tenemos:
+     https://developers.giphy.com/
+
+-Yo tengo la cuenta creada, así que abrimos nuestra dashboard y 
+copiamos la API KEY:
+     zrmAEen6j0ZdRx1eJEgT2Oyc5VCuwLNW
+
+3) Ahora renombramos el proyecto: 04-gif-expert-app, y desde la consola entramos a la carpeta del proyecto para arrancar react:
+     npm start
+
+

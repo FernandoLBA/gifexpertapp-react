@@ -1,0 +1,16 @@
+20/04/2021.
+
+APLICACIÓN: GIFEXPERTAPP.
+
+Lo que vamos a aplicar:
+-Custom HOOKS.
+-Fetch hacia una API.
+-Comunicación entre componentes.
+-Clases de CSS.
+-Animaciones.
+-Enviar métodos como argumentos.
+-Crear listados.
+-Keys.
+-Giphy.
+
+A DARLE CARNAL...

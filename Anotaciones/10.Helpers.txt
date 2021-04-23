@@ -1,0 +1,155 @@
+22/04/2021.
+
+HELPERS - getGifs.
+
+Vamos a modificar el enlace de búsqueda a la API, con el fin
+de personalizar nuestras búsquedas.
+
+1) Abrimos el componente GifGrid.js:
+
+Colocamos backtips en el enlace de búsqueda.
+Añadimos la variable category.
+Usamos encodeURI ya que el término de búsqueda puede contener 
+espacios:
+     const url = `https://api.giphy.com/v1/gifs/search?q=${ encodeURI( category ) }&limit=5&api_key=zrmAEen6j0ZdRx1eJEgT2Oyc5VCuwLNW`;
+
+Si queremos que se muestre primero la nueva búsqueda 
+(inputValue) y las búsquedas anteriores (...categories) se 
+muestren debajo de la nueva, hacemos esto en el AddCategory.js:
+     const handleSubmit = ( e ) => {
+          e.preventDefault();
+
+          if ( inputValue.trim().length > 1 ) {
+               // Al colocar inputValue primero, las busquedas anteriores aparecerán debajo de la nueva
+               setCategories( categories => [ inputValue, ...categories ] ); <-----------------------------
+               // una vez agregado el valor al array, se borra el input
+               setInputValue( '' );
+          };
+     };
+
+Si queremos que solo se muestre lo que estamos buscando, 
+removemos la copia de las busquedas anteriores:
+     const handleSubmit = ( e ) => {
+          e.preventDefault();
+
+          if ( inputValue.trim().length > 1 ) {
+               // Mostrará solo la búsqueda actual (inputValue)
+               setCategories( categories => [ inputValue ] );
+               // una vez agregado el valor al array, se borra el input
+               setInputValue( '' );
+          };
+     };
+
+2) Ahora vamos a cortar la función que hace fetch a la API ya 
+que no debería estar en nuestro componente GifGrid.js:
+     const getGifs = async() => {
+            
+          // Colocamos la url completa que copiamos de postman
+          const url = `https://api.giphy.com/v1/gifs/search?q=${ encodeURI( category ) }&limit=5&api_key=zrmAEen6j0ZdRx1eJEgT2Oyc5VCuwLNW`;
+
+          // Hacemos el fetc a la url de la API
+          const resp = await fetch( url );
+          const { data } = await resp.json();
+
+          const gifs = data.map( img => {
+               return {
+                    id: img.id,
+                    title: img.title,
+                    url: img.images?.downsized_medium.url
+               };
+          });
+
+          setImages( gifs );
+     };
+
+3) Crearemos una carpeta llamada helpers dentro de src y dentro 
+de helpers un archivo getGifs.js.
+
+4) Abrimos el helper getGigs.js y copiamos la función cortada de GifGrid.js:
+     export const getGifs = async( category ) => {
+               
+          // Colocamos la url completa que copiamos de postman
+          const url = `https://api.giphy.com/v1/gifs/search?q=${ encodeURI( category ) }&limit=5&api_key=zrmAEen6j0ZdRx1eJEgT2Oyc5VCuwLNW`;
+
+          // Hacemos el fetc a la url de la API
+          const resp = await fetch( url );
+          const { data } = await resp.json();
+
+          const gifs = data.map( img => {
+               return {
+                    id: img.id,
+                    title: img.title,
+                    url: img.images?.downsized_medium.url
+               };
+          });
+
+          return gifs;
+     };
+
+-Exportamos la función.
+-Le colocamos la category como parámetro, ya que la necesita 
+para agregarla al enlace de búsqueda. Este parámetro lo 
+recibe desde GifGrid.js.
+-Removemos el setImages.
+-Este fecth retorna una promesa (gifs).
+
+5) Abrimos el componente GifGrid.js:
+     import React, { useState, useEffect } from 'react';
+     import { getGifs } from '../helpers/getGifs';
+     import GifGridItem from './GifGridItem';
+
+
+     export const GifGrid = ({ category }) => {
+
+          const [images, setImages] = useState( [] );
+
+          useEffect(() => {
+               getGifs( category )
+                    .then( setImages );
+          }, [ category ]);
+
+          return (
+               <>
+                    <h2>{ category }</h2>
+                    <div className="card-grid">
+                         {
+                              images.map( img => (
+                                   <GifGridItem
+                                        key={ img.id }
+                                        { ...img }
+                                   />
+                              ))
+                         }
+                    </div>
+               </>
+          );
+     };
+
+-Importamos el helper getGifs, ya que lo necesita dentro del 
+useEffect.
+-La función getGigs recibe como argumento la category, y 
+retorna una promesa, por eso usamos el .then para extraer las 
+imágenes y enviarlas al setImages del hook:
+     useEffect(() => {
+          getGifs( category )
+               .then( imgs => setImages( imgs ) );
+     }, []);
+
+Como la arrow function del .then y la función setImages reciben 
+el mismo argumento imgs, entonces la reducimos así:
+     useEffect(() => {
+          getGifs( category )
+               .then( setImages );
+     }, []);
+
+6) Tenemos un error en consola que dice que el useEffect tiene 
+una dependencia falatante, así lo solucionamos:
+     useEffect(() => {
+          getGifs( category )
+               .then( setImages );
+     }, [ category ]);
+
+Lo único que debe monitorear el useEffect es si la category 
+cambia, ya que allí viene nuestro término de búsqueda por lo 
+tanto le colocamos en el array de dependencias la category.
+

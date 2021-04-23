@@ -1,0 +1,96 @@
+21/04/2021.
+
+COMUNICACIÓN ENTRE COMPONENTES.
+
+1) Abrimos el componente padre GigExpertApp.js y en el return 
+mandamos la función setCategories al componente AddCategory.js:
+     return (
+          <>
+               <h2>GifExpertApp</h2>
+               <AddCategory setCategories={ setCategories }/>
+               <hr />
+               <ol>
+                    {
+                         categories.map( category => {
+                              return <li key={ category }>{ category }</li>
+                         } )
+                    }
+               </ol>
+          </>
+     );
+
+2) El componente AddCategory.js va a recibir la función 
+setCategories como argumento en sus props, pero 
+desestructurándola:
+     import React, { useState } from 'react';
+     import PropTypes from 'prop-types'
+
+     export const AddCategory = ( { setCategories } ) => {<-----
+
+          // Creamos un hook
+          const [ inputValue, setInputValue ] = useState( 'Caballeros del Zodíaco' );
+
+          const handleInputChange = ( e ) => {
+               setInputValue( e.target.value );
+          };
+
+          const handleSubmit = ( e ) => {
+               e.preventDefault();
+
+               console.log(inputValue.trim());
+
+               if ( inputValue.trim().length > 1 ) {
+                    setCategories( categories => [ ...categories, inputValue ] );
+                    // una vez agregado el valor al array, se borra el input
+                    setInputValue( '' );
+               };
+          };
+
+          return (
+                    <form onSubmit={ handleSubmit }>
+                         <input
+                              type="text"
+                              value={ inputValue }
+                              onChange={ handleInputChange }
+                         />
+                    </form>
+          );
+     };
+
+     AddCategory.propTypes = {
+          setCategories: PropTypes.func.isRequired
+     };
+
+-En el handleSubmit vamos a invocar a la función recibida 
+setCategories y le agregamos una copia del array categories y le
+asignamos el nuevo valor inputValue.
+-Luego importamos los PropTypes para exigir al componente que
+reciba un tipo de propiedad de tipo función (func) y que es 
+requerida.
+
+Nota: cuando usamos un useState, este debe tener un valor 
+inicial, por ejemplo, en el código de arriba tiene asignado 
+como valor inicial "Caballeros del Zodíaco":
+     const [ inputValue, setInputValue ] = useState( 'Caballeros del Zodíaco' );
+
+Pero sino queremos que haya un valor inicial, como por ejemplo:
+     const [ inputValue, setInputValue ] = useState();
+
+Esto nos marcará un error que dice que un componente está 
+cambiando un input no controlado, esto es debido a que el hook 
+useState sino tiene valor inicial será undefined y por lo tanto 
+la constante inputValue también será undefined en todo el 
+código:
+     index.js:1 Warning: A component is changing an 
+     uncontrolled input to be controlled. This is likely caused 
+     by the value changing from undefined to a defined value, 
+     which should not happen. Decide between using a controlled 
+     or uncontrolled input element for the lifetime of the 
+     component. More info: https://reactjs.org/l
+
+Para solucionar esto, debemos simplemente saber que tipo de 
+valor inicial tiene que recibir nuestro hook, en este caso es 
+un string, y lo asignamos así:
+     const [ inputValue, setInputValue ] = useState( '' );
+
+Y de esa manera nuestro hook asigna como valor inicial un string vacío a la constante inputValue y se quita el error.

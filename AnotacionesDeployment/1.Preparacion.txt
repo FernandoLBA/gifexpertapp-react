@@ -1,0 +1,24 @@
+22/04/2021.
+
+PREPARACIÓN DEL PROYECTO - GITHUB PAGES.
+
+Enlace de http-server
+https://www.npmjs.com/package/http-server
+
+Abrimos el package.json del proyecto 04-gif-expert-app y
+veremos el script build de react.
+
+Ahora abrimos la consola y desde la carpeta del proyecto, vamos 
+a ejecutar el build de react:
+     npm run build
+
+Una vez generado la carpeta build en el proyecto, vamos a ir a 
+la web de http-server y vamos a instalarlo, para montar un 
+servidor localhost para probar nuestra app:
+     npm install --global http-server
+
+Ahora entramos a la carpeta build desde consola y escribimos el
+comando:
+     http-server -o
+
+Se abrirá la aplicación desde la carpeta build en un servidor localhost.

@@ -1,0 +1,116 @@
+21/04/2021.
+
+FETCH API - OBTENER LAS IMÁGENES DESEADAS.
+
+Documentación de API Giphy
+https://developers.giphy.com/docs/api/endpoint/#search
+
+Vamos a crear un componente que tome el valor de la lista como argumento y retorne las imágenes de Giphy API.
+
+Este componente va a ser renderizado en el componente padre GifExpertApp, y tomará el lugar del <li></li> renderizado.
+
+1) Crearemos un componente GifGrid.js.
+
+2) Para armar la url de búsqueda debemos revisar la 
+documentación de arriba y copiar el link del Search Point que 
+dice Gid URL:
+     https://api.giphy.com/v1/gifs/search
+
+Luego copiamos nuestra API KEY de Giphy, desde el dashboard:
+     zrmAEen6j0ZdRx1eJEgT2Oyc5VCuwLNW
+
+Abrimos postman seleccionamos el método GET y pegamos la url,
+luego en Params agregamos otros términos como se ve abajo.
+
+En la documentación de arriba, están los parámetros de 
+peticiones Request Parameters, los cuales los usaremos Para
+consultar a la API desde Postman, presionando la tecla Send.
+
+Para conectar a la API, se usa:
+     api_key: recibe un string que contiene la API KEY.
+
+-Ejemplo:
+     https://api.giphy.com/v1/gifs/search?api_key=zrmAEen6j0ZdRx1eJEgT2Oyc5VCuwLNW
+
+Luego para agregar un elemento a buscar:
+     q: recibe un string con el término a buscar.
+
+-Ejemplo:
+     https://api.giphy.com/v1/gifs/search?api_key=zrmAEen6j0ZdRx1eJEgT2Oyc5VCuwLNW&q=venezuela
+
+Para limitar los resultados:
+     limit: recibe un integer.
+
+-Ejemplo:
+     https://api.giphy.com/v1/gifs/search?api_key=zrmAEen6j0ZdRx1eJEgT2Oyc5VCuwLNW&q=venezuela&limit=10
+
+Podemos cambiar de posición los elementos dentro del url y no 
+habrá problemas, colocando el api_key de último:
+     https://api.giphy.com/v1/gifs/search?q=venezuela&limit=10&api_key=zrmAEen6j0ZdRx1eJEgT2Oyc5VCuwLNW
+
+3) Así queda nuestro código en el componente GifGrid.js:
+     import React from 'react';
+
+     export const GifGrid = ({ category }) => {
+
+          const getGifs = async() => {
+               
+               // Colocamos la url completa que copiamos de postman
+               const url = 'https://api.giphy.com/v1/gifs/search?q=venezuela&limit=10&api_key=zrmAEen6j0ZdRx1eJEgT2Oyc5VCuwLNW';
+
+               // Hacemos el fetc a la url de la API
+               const resp = await fetch( url );
+               const { data } = await resp.json();
+
+               const gifs = data.map( img => {
+                    return {
+                         id: img.id,
+                         title: img.title,
+                         url: img.images?.downsized_medium.url
+                    };
+               });
+
+               console.log( gifs );
+          };
+
+          getGifs();
+
+          return (
+               <div>
+                    <h3>{ category }</h3>
+               </div>
+          );
+     };
+
+-El componente recibe la función setCategories en sus props 
+enviada desde el componente padre GifExpertApp. La desestructuramos como category:
+     export const GifGrid = ({ category }) => {
+
+-Creamos la función getGifs como async await.
+     const getGifs = async() => {
+
+-Hacemos un fetch a la url de la api y se guarda la response
+     const resp = await fetch( url );
+
+-Convertimos la response a json y desestructuramos data
+     const { data } = resp.json();
+
+-Le hacemos un map a data para retornar un objeto con las 
+propiedades que necesitaremos:
+     const gif = data.map( img => {
+          return {
+               id: img.id,
+               title: img.title,
+               url: img.images.downsized_medium.url
+          };
+     } );
+
+Al exportar el objeto con las propiedades extraídas de la API, 
+puede que alguna de las imágenes no contenga una url, por eso 
+le agregamos el signo ? en images, para consultar que si posee 
+el url lo traiga:
+     return {
+          id: img.id,
+          title: img.title,
+          url: img.images?.downsized_medium.url
+     };

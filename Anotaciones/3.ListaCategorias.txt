@@ -1,0 +1,37 @@
+20/04/2021.
+
+CREANDO UNA LISTA DE CATEGORÍAS.
+
+Abrimos el componente GifExpertApp.js y le colocamos una lista 
+de categorías:
+     const categories = [ 'One Punch', 'Samurai X', 'Dragon ball Z' ];
+
+Esta lista la vamos a mostrar en el componente, mediante una 
+lista ordenada:
+     return (
+          <>
+               <h2>GifExpertApp</h2>
+               <hr />
+               <button>Agregar</button>
+               <ol>
+                    {
+                         categories.map( category => {
+                              return <li key={ category }>{ category }</li>
+                         } )
+                    }
+               </ol>
+          </>
+     );
+
+React exige que le coloquemos el key a los elementos del 
+arreglo que estamos renderizando, por lo tanto le colocamos al 
+key del tag li, la misma cateogry.
+
+Ahora necesitaremos agregar nuevos elementos a nuestra lista, 
+pero la lista se creó como constante, por lo tanto no vamos a 
+mutar una conatante.
+
+Para poder modificar el arreglo, vamos a usar un Hook, el cual tendrá como valor inicial un arreglo:
+          const [categories, setCategories] = useState( [ 'One Punch', 'Samurai X', 'Dragon ball Z' ] );
+
+Para que el hook useState funcione adecuadamente, es necesario importarlo de React.

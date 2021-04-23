@@ -1,0 +1,17 @@
+21/04/2021.
+
+UseEffect.
+
+El UseEffect se usa para ejecutar alguna acción, la primera vez
+que renderizamos el componente.
+
+El UseEffect recibe como argumentos una función flecha y un arreglo de dependencias.
+
+Por ejemplo:
+     UseEffect( () => {
+          getGifs();
+     }, []);
+
+Debemos importar UseEffect desde react.
+Esto ejecutará una sola vez la función getGifs().
+Posee un arreglo de dependencias vacío en este caso.

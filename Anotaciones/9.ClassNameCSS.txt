@@ -1,0 +1,84 @@
+22/04/2021.
+
+ClassName - CLASES DE CSS.
+
+A los componentes le asignamos unas clases en los divs.
+
+Al componente GifGrid le agregamos el className card-grid al 
+div contenedor:
+     return (
+               <>
+                    <h3>{ category='Caballeros del Zodíaco' }</h3>
+                    <div className="card-grid">
+                         {
+                              images.map( img => (
+                                   <GifGridItem
+                                        key={ img.id }
+                                        { ...img }
+                                   />
+                              ))
+                         }
+                    </div>
+               </>
+          );
+
+Al componente GifGridItem le agregamos el className card al div 
+contenedor:
+     return (
+               <div className="card">
+               <img src={ url } alt="gif"></img>
+               <p>{ title }</p>
+               </div>
+          );
+
+Al index.css le agregamos ciertos estilos:
+     h1 {
+     color:aqua;
+     background: black;
+     border-radius: 6px;
+     padding: 20px;
+     text-decoration: underline;
+     width: fit-content;
+     }
+
+     h1 span{
+     color: white;
+     }
+
+     h3 {
+     background: black;
+     border-radius: 6px;
+     color: aqua;
+     display: block;
+     font-weight: bold;
+     padding: 10px 0;
+     text-align: center;
+     text-transform: uppercase;
+     }
+
+     .card-grid{
+     justify-content: center;
+     display: flex;
+     flex-direction: row;
+     flex-wrap: wrap;
+     }
+
+     .card {
+     align-content: center;
+     border: 1px solid grey;
+     border-radius: 6px;
+     margin-bottom: 10px;
+     margin-right: 10px;
+     overflow: hidden;
+     }
+
+     .card p {
+     padding: 5px;
+     text-align: center;
+     }
+
+     .card img {
+     max-height: 170px;
+     }
+
+Hice otros diseños para que quede visualmente mejor.

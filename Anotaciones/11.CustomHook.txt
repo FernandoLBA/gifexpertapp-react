@@ -1,0 +1,101 @@
+22/04/2021.
+
+CUSTOM HOOK.
+
+Un Hooks no es más que una función, al nombrarse un hook le 
+precede la palabra use como estándar, por ejemplo:
+Por ejemplo: useState, useReducer, useEffect, useContext,etc. 
+Los hooks son funciones.
+
+Un custom Hook es un hook personalizado, que podemos crear con 
+lo que necesitemos realizar, también pueden contener un estado 
+useState, para que otros componentes lo utilicen cuando algo 
+cambie.
+
+Un custom hook se puede usar como si fuesen functional 
+components.
+
+1) Vamos a crear una carpeta hooks dentro de src.
+
+2) Dentro de hooks creamos el custom hook useFetchGifs.js.
+
+3) Vamos al componente GifGrid y copiamos:
+     import React from 'react';
+     import { useFetchGifs } from '../hooks/useFetchGifs';
+     import GifGridItem from './GifGridItem';
+
+
+     export const GifGrid = ({ category }) => {
+
+          const { data:images, loading } = useFetchGifs( category );
+
+          return (
+               <>
+                    <h2>{ category }</h2>
+                    { loading && <p>Loading</p>}
+                    <div className="card-grid">
+                         {
+                              images.map( img => (
+                                   <GifGridItem
+                                        key={ img.id }
+                                        { ...img }
+                                   />
+                              ))
+                         }
+                    </div>
+               </>
+          );
+     };
+
+-Importamos el sutom hook.
+-Limpiamos el código de lo que no usaremos.
+-Le mandamos la category al hook useFetchGifs y desestructuramos
+su contenido.
+-Renombramos la propiedad data como images.
+-En el return colocamos un loading que si es true retorna un tag
+<p></p>.
+
+4) Abrimos el custom hook useFetchGifs.js y escribimos:
+     import { useState, useEffect } from 'react';
+     import { getGifs } from '../helpers/getGifs';
+
+     export const useFetchGifs = ( category ) => {
+
+          const [state, setState] = useState({
+               data: [],
+               loading: true
+          });
+
+          useEffect( () => {
+               getGifs( category )
+                    .then( imgs => {
+                         setTimeout(() => {
+                              setState({
+                                   data: imgs,
+                                   loading: false
+                              })
+                         }, 3000);
+                    });
+          }, [ category ]);
+
+          return state;
+     };
+
+-Importamos useState y useEffect.
+-Importamos el helper getGifs.
+-Exportamos la función o el hook.
+-Le colocamos un objeto con 2 propiedades al hook useState como 
+valor inicial.
+-Creamos un hook useEffect que invoca al helper getGifs, le 
+manda la category y retorna una promesa, a esta promesa le saca 
+las imágenes y dentro de un setTimeout de 3 segundos modifica 
+el estado colocando las imágenes en data y el loading en false.
+-El useEffect tiene como dependecia category, ya que solo se 
+dispara si esta cambia.
+-Retorna el state el cual contiene el objeto con las 
+propiedades data y el loading.
+
+
+
+
+  

@@ -1,0 +1,46 @@
+21/04/2021.
+
+MOSTRAR TÍTULO DE LAS IMÁGENES.
+
+1) Crearemos un nuevo componente GifGridItem.js:
+     import React from 'react';
+
+     const GifGridItem = ( { id, title,url } ) => {
+
+          return (
+               <div>
+               <img src={ url } alt="gif"></img>
+               <p>{ title }</p>
+               </div>
+          );
+     };
+
+     export default GifGridItem;
+
+En el return en vez de retornar el arreglo images, que 
+posteriormente tendremos que desestructurar 2 veces, ya que 
+llegaría al componente así :
+     images: {images: Array(10)}
+
+Entonces tedríamos que desestructurar el objeto interno 
+     {images: array(10)}
+
+Y luego hacerle map a images y desestructurar una segunda vez
+     images.map( ({ id, title, url }) => ...);
+
+Para ahorranos esto, en el componente padre (GifGrid) le 
+pasamos map a images y le pasamos una copia de cada img al 
+componente hijo (GifGridItem):
+     return (
+          <div>
+               <h3>{ category }</h3>
+               {
+                    images.map( img => ( <--------------
+                         <GifGridItem
+                              key={ img.id }
+                              { ...img } <----------------
+                         />
+                    ))
+               }
+          </div>
+     );

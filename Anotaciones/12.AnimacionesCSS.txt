@@ -1,0 +1,33 @@
+22/04/2021.
+
+ANIMACIONES POR CSS EN NUESTRA APLICACIÓN.
+
+Usamos esta web de animaciones:
+https://animate.style/
+
+Abrimos la web, bajamos y copiamos el link del CDN:
+     <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+     />
+
+Luego abrimos nuestro index.html de la carpeta public y lo 
+pegamos encima del title en el head.
+
+En la web nos vamos al efecto que queremos y copiamos sus 
+clases.
+
+Ahora abrimos nuestro componente GifGridItem.js y pegamos las 
+clases:
+     animate__bounce
+
+Pero para que funcione, debemos colocar animate__animated antes:
+     animate__animated animate__bounce
+
+En el componente quedaría así:
+     return (
+          <div className="card animate__animated animate__backInRight">
+              <img src={ url } alt="gif"></img>
+              <p>{ title }</p>
+          </div>
+     );

@@ -1,0 +1,15 @@
+22/04/2021.
+
+DESPLEGANDO APLICACIÓN EN GITHUB PAGES.
+
+Enlace de consulta:
+https://docs.github.com/en/enterprise/2.13/user/articles/setting-your-username-in-git
+
+Abrimos la consola y entramos a la carpeta del proyecto.
+
+Para crear un repositorio copiamos en la consola:
+     git init
+
+Después vamos a preparar los archivos para subirlos:
+     git add .
+

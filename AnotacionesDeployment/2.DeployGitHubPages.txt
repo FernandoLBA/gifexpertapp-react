@@ -13,3 +13,13 @@ Para crear un repositorio copiamos en la consola:
 Después vamos a preparar los archivos para subirlos:
      git add .
 
+Luego hacemos un commit con un un mensaje
+     git commit -m "Subiendo gif expert app"
+
+Ahora entramos a las carpetas del proyecto y cambiamos el 
+nombre de la carpeta build a docs, esto solo para github, ya que
+en github podemos desplegar todo el repositorio o un directorio
+llamado docs como http, para desplegar las aplicaciones web.
+
+Ahora como hicimos un cambio, vamos a hacer el git add . de nuevo y el commit con otro mensaje.
+

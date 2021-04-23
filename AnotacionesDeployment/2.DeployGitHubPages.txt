@@ -16,10 +16,47 @@ Después vamos a preparar los archivos para subirlos:
 Luego hacemos un commit con un un mensaje
      git commit -m "Subiendo gif expert app"
 
-Ahora entramos a las carpetas del proyecto y cambiamos el 
-nombre de la carpeta build a docs, esto solo para github, ya que
-en github podemos desplegar todo el repositorio o un directorio
-llamado docs como http, para desplegar las aplicaciones web.
+Como el .gitignore ignora la carpeta build y nosotros la 
+necesitamos, entramos a las carpetas del proyecto y cambiamos 
+el nombre de la carpeta build a docs, esto solo para github, ya 
+que en github podemos desplegar todo el repositorio o un 
+directorio llamado docs como http, para desplegar las 
+aplicaciones web.
 
-Ahora como hicimos un cambio, vamos a hacer el git add . de nuevo y el commit con otro mensaje.
+Ahora como hicimos un cambio, vamos a hacer el git add . de 
+nuevo y el commit con otro mensaje.
+
+Vamos a github y creamos un nuevo repositorio, con el nombre
+gifexpertapp-react
+
+Ahora se mostrarán unos comandos de git en en github, vamos a 
+copiar unos comandos para subir la aplicación a github pages:
+     git remote add origin https://github.com/FernandoLBA/gifexpertapp-react.git
+
+     git branch -M main
+
+     git push -u origin main
+
+Luego en la página de github, desde el repositorio creado, 
+vamos a settings y buscamos en el menú la sección pages,
+donde dice source vamos a elegir la branch main y el folder 
+docs, luego le damos click en save y se nos genera un link con
+la página desplegada en github pages:
+     https://fernandolba.github.io/gifexpertapp-react/
+
+Debemos esperar hasta que el enlace se ponga verde y diga que 
+la página ha sido publicada.
+
+Sin embargo no se mostrará nada, en la consola nos aparecen 
+varios errores, porque está buscando archivos en la raíz del 
+proyecto y no es así, debemos entrar al index.html y hacer lo siguiente:
+
+-Desde visual studio code vamos a abrir el index.html de la 
+carpeta docs.
+-El html estará organizado de una forma distinta, presionamos 
+las teclas ctrl+alt+f para formatear el documento y quede 
+legible.
+-Le vamos a colocar a las direcciones que buscan archivos 
+locales, que le coloquemos un punto delante y un slash sino lo 
+tienen ./ en el head y en los scripts al final del body.
 

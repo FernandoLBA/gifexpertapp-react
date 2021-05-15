@@ -1,0 +1,50 @@
+28/04/2021.
+
+SIMULAR UN SUBMIT DEL FORMULARIO.
+
+Trabajaremos con el componente AddCategory.
+
+Haremos una prueba que el submit no envíe nada, es decir como 
+si el input estuviese vacío:
+     test('No debe postear la información con submit', () => {
+          
+          // le mandamos el evento al submit
+          wrapper.find( 'form' ).simulate( 'submit', { preventDefault(){} } );
+
+          expect( setCategories ).not.toHaveBeenCalled();
+     });
+
+-Esto enviará el evento al submit.
+-Revisará que la función setCategories NO (.not) haya sido 
+llamada.
+Sin embargo esto dispara un error, ya que sí fué llamada, 
+porque la prueba anterior le envió el value con la cadena Hola 
+Mundo al componente, entonces la función handleSubmit del 
+componente revisa que el inputValue contenga un valor, si esto 
+se cumple entonces le asigna el valor del inputValue a la 
+función setCategories:
+     if ( inputValue.trim().length > 1 ) {
+               // coloca el inputValue primero
+               setCategories( categories => [ inputValue, ...categories ] );
+               // limpia borra el input
+               setInputValue( '' );
+     };
+
+Para solucionar esto debemos colocar en el describe de nuestra 
+prueba la función beforeEach para que reinicialice todo, para 
+que cada prueba pueda funcionar adecuadamente:
+     // Reinicia todo
+     beforeEach( () => {
+          // Esto reinicializará el jest
+          jest.clearAllMocks();
+
+          // reestablecerá el componente
+          wrapper = shallow( <AddCategory setCategories={ setCategories } /> );
+     } );
+
+-El jest.clearAllMocks() resetea cualquier función o evento de 
+jest.
+-El componente se reinicializará, creando una instancia de 
+wrapper dentro de la función beforeEach y cambiando en el 
+describe el const wrapper por let wrapper. Con el fin de poder 
+acceder a sus métodos y propiedades fuera de la función.

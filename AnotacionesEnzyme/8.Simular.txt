@@ -1,0 +1,42 @@
+28/04/2021.
+
+SIMULAR SUBMIT LLAMANDO A LA FUNCIÓN Y LIMPIANDO EL INPUTVALUE.
+
+Trabajaremos con el componente AddCategory.js.
+
+TAREA
+Debe llamar el setCategories y limpiar la caja de texto
+1) Simular el inputChange.
+2) Simular el submit 
+3) Se debe llamar al menos una vez a la función setCategories
+4) El valor del input debe estar vacío.
+
+SOLUCIÓN:
+     test('Debe llamar setCategories y limpiar la caja de texto', () => {
+          
+          const input = wrapper.find( 'input' );
+          const value = 'Hola Mundo';
+          
+          // simular inputChange
+          input.simulate( 'change', { target: { value } } );
+
+          expect( wrapper.find('p').text().trim() ).toBe( value );
+
+          // Simular submit
+          wrapper.find( 'form' ).simulate( 'submit', { preventDefault(){} } );
+
+          // Se debe llamar a setCategories
+          expect( setCategories ).toHaveBeenCalled();
+
+          // El input debe estar vacío
+          expect( input.text() ).toBe( '' );
+     });
+
+
+-Para la función toHaveBeenCalled, podemos también usar la 
+función toHaveBeenCalledTimes(2) y le ponemos cuantas veces 
+queremos que se ejecute, para este caso 2 veces.
+
+-Para verificar que se haya llamado como una función podemos 
+usar el método:
+     toHaveBeenCalledWith( expect.any( Function ) )

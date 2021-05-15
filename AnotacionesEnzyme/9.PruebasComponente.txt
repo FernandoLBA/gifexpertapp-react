@@ -1,0 +1,74 @@
+29/04/2021.
+
+PRUEBAS DEL COMPONENTE GifGrid - MOCK CUSTOMHOOK.
+
+Trabajaremos con el componente GifGrid.js.
+
+Debemos colocar al componente GifGrid que requiera el proptype category como string y sea requerido:
+     GifGrid.propTypes = {
+          category: PropTypes.string.isRequired
+     };
+
+Luego creamos la prueba:
+     import React from 'react';
+     import { shallow } from 'enzyme';
+     import { GifGrid } from '../../components/GifGrid';
+     import { useFetchGifs } from '../../hooks/useFetchGifs';
+     jest.mock('../../hooks/useFetchGifs');
+
+     describe( 'Pruebas al componente <GifGrid />', () => {
+          
+          const category = 'Goku';
+
+          test( 'Debe mostrar el componente <GifGrid /> correctamente', () => {
+
+               // Establece las propiedades por defecto del state del custom hook useFetchGifs
+               useFetchGifs.mockReturnValue({
+                    data: [],
+                    loading: true     
+               });
+
+               const wrapper = shallow( <GifGrid category={ category }/> );
+               expect( wrapper ).toMatchSnapshot();
+          } );
+
+          test( 'Debe mostrar items cuando se cargan imágenes con el custom hook useFetchGifs', () => {
+               
+               // Creamos un array de objetos con datos retornados por el helper getGifs
+               const gifs = [{
+                    id: 'ABC',
+                    title: 'Cualquier cosa',
+                    url: 'https://localhost/cualquier/cosa.jpg'
+               }];
+
+               // le mandamos el array gifs al state de useFetchGifs
+               useFetchGifs.mockReturnValue({
+                    data: gifs,
+                    loading: false     
+               });
+
+               const wrapper = shallow( <GifGrid category={ category }/> );
+
+               expect( wrapper ).toMatchSnapshot();
+          } );
+     } );
+
+
+-Importamos el custom hook useFetchGifs.
+
+-El jest.mock con la ruta del CUSTO MHOOK va a controlar la información que recibe y se envía al custom hook (useFetchGifs).
+
+-Creamos una category para pasarle al componente GifGrid.
+
+-La primera prueba hace una comparación con un snapshot, los 
+datos deben ser los que tiene por defecto el state del 
+useFetchGifs.
+
+-En la segunda prueba se ejecuta una prueba mostrando los items 
+de la category consultada, se usa un array con un objeto que 
+contiene datos, luego ese array se le pasa al useFetchGifs.
+mockReturnValue para que "simule" que el custom hook retorno 
+información para mostrar.
+
+
+

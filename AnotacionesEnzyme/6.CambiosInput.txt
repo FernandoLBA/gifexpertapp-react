@@ -1,0 +1,56 @@
+28/04/2021.
+
+SIMULAR CAMBIOS EN UN INPUT.
+
+Trabajamos con el componente AddCategory.js, en el cual vamos a
+reaalizar pruebas simulando entradas de teclado en el input.
+
+1) Abrimos el archivo de pruebas AddCategory.test.js y creamos 
+otra prueba:
+     test('Debe cambiar la caja de texto', () => {
+          const input = wrapper.find( 'input' );
+          input.simulate( 'change' );
+     });
+
+Esta prueba nos arroja un error que dice que no se puede leer 
+la propiedad 'target' de undefined, esto se debe a que el evento
+es undefined y por eso aparece este error, para solucionarlo hay
+que enviar el evento.
+
+2) Para enviar un evento que en este caso es un e.target.value, 
+hacemos uso de un objeto que se enviará con el target y dentro 
+de este objeto el value. Escribimos lo siguiente:
+     test('Debe cambiar la caja de texto', () => {
+          const input = wrapper.find( 'input' );
+          const value = 'Hola Mundo';
+          input.simulate( 'change', { target: { value } } );
+     });
+
+-Creamos un value con una cadena.
+-Simulamos el cambio (change) en el input y como segundo 
+argumento mandamos un objeto target que contiene un objeto con el value que contiene la cadena 'Hola Mundo'.
+
+3) Agregamos un párrafo al componente AddCategory, que contenga 
+el inputValue recibido:
+     return (
+               <form onSubmit={ handleSubmit }>
+                    <p>{ inputValue }</p> <-------------
+                    <input
+                         type="text"
+                         value={ inputValue }
+                         onChange={ handleInputChange }
+                         placeholder="Busque aquí..."
+                    />
+               </form>
+     );
+
+4) Y en el archivo de prueba probamos de que el valor que se le
+envía sea igual al que contiene el párrafo en el componente:
+     test( 'Debe cambiar la caja de texto', () => {
+          const input = wrapper.find( 'input' );
+          const value = 'Hola Mundo';
+          input.simulate( 'change', { target: { value } } );
+
+          expect( wrapper.find( 'p' ).text().trim() ).toBe( value );
+     } );
+

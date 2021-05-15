@@ -1,0 +1,48 @@
+14/05/2021.
+
+PRUEBAS SOBRE CUSTOMHOOKS.
+
+Vamos a trabajar con el custom hook useFetchGifs.js.
+
+Enlace de documentación:
+https://react-hooks-testing-library.com/
+
+1) Creamos el archivo de prueba del custom hook useFetchGifs.js
+respetando la estructura. tests/hooks/useFetchGifs.test.js.
+
+2) Creamos el describe y una prueba:
+     test('Debe retornar el estado inicial', () => {     
+          const { data:images, loading } = useFetchGifs( 'Goku' );
+
+          console.log( images, loading );
+     });
+
+-Al realizar esta prueba, estamos ejecutando un hook y nos 
+aparecerá el siguiente error en el test suite:
+     Invalid hook call. Hooks can only be called inside of the 
+     body of a function component...
+
+Para solucionar esto ingresamos al enlace que está arriba e
+ingresamos a la documentación de la librería hecha para hacer 
+pruebas con hooks (React Hooks Testing Library), en el menú
+seleccionamos la sección de instalación, para poder instalarla.
+
+3) Instalamos la librería React Hooks Testing Library:
+     npm install --save-dev @testing-library/react-hooks
+
+4) En el archivo de pruebas vamos a usar el renderHook de la
+librería que acabamos de instalar, debemos importarlo:
+     import { renderHook } from '@testing-library/react-hooks';
+
+-El renderHook recibe una función anónima la cual ejecuta al
+hook que se va a probar, por ejemplo:
+     renderHook( () => customHook() );
+
+5) El renderHook trae la información dentro y para acceder a 
+ella, debemos desestructurarla:
+     const { result } = renderHook( () => useFetchGifs( 'Goku' ) );
+     
+     const { data, loading } = result.current;
+
+     -El result.current trae la información del hook.
+

@@ -1,0 +1,118 @@
+27/04/2021.
+
+CONFIGURAR AMBIENTE DE PRUEBAS.
+
+Documentación de consulta:
+https://enzymejs.github.io/enzyme/
+
+https://www.npmjs.com/package/enzyme-to-json
+
+// Tarea
+// 1. Instalar Enzyme
+// 2. Enzyme to Json
+
+--INSTALAR ADAPTADOR ENZYME--
+1) Abrir el proyecto 04-gif-expert-app desde consola.
+
+2) Instalar el adaptador de Enzyme para realizar pruebas 
+unitarias en la app hecha con React 17:
+     npm install --save-dev @wojtekmaj/enzyme-adapter-react-17
+
+--INSTALAR ENZYME AL PROYECTO--
+3) Luego abrimos el enlace de arriba: enzymes.github... e 
+instalamos Enzyme en nuestro proyecto:
+     npm i --save-dev enzyme enzyme-adapter-react-16
+
+4) Ahora bajamos un poco en la página de enzymes.github, y copiamos la configuración de ezyme:
+     import Enzyme from 'enzyme';
+     import Adapter from 'enzyme-adapter-react-16';
+
+     Enzyme.configure({ adapter: new Adapter() });
+
+5) Ahora abrimos el archivo setupTests.js creado por React, 
+sino existe, lo creamos dentro de la carpeta src y pegamos la 
+configuración copiada.
+
+--INSTALAR ENZYME-TO-JSON--
+6) Ahora abriremos el link de enzyme-to-json, el cual servirá 
+para convertir el wrapper de enzyme en un formato compatible con
+jest-snapshot-testing:
+     npm install --save-dev enzyme-to-json
+
+7) En el link de enzyme-to-json está la configuración para 
+usarlo, vamos a copiar esta configuración:
+     import {createSerializer} from 'enzyme-to-json';
+
+     expect.addSnapshotSerializer(createSerializer({mode: 'deep'}));
+
+8) Abrimos el archivo de setupTests.js nuevamente y pegamos la configuración.
+
+9) Si todo salió bien, nuestro package.json debe contener estas 
+dependencias de desarrollo:
+     "devDependencies": {
+     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.1",
+     "enzyme": "^3.11.0",
+     "enzyme-adapter-react-16": "^1.15.6",
+     "enzyme-to-json": "^3.6.2"
+
+TAREA---------------
+Usaremos el componente GifGridItem.js
+
+1. Debe mostrar el componente correctamente.
+     * shallow
+     * wrapper
+     * wrapper .toMatchSnapshot()
+
+SOLUCIÓN:
+
+1) Creamos la carpeta de pruebas tests dentro de src, y creamos 
+la estructura del archivo a probar.
+
+2) Creamos la carpeta components dentro de tests y creamos el 
+archivo de pruebas GifGriditem.test.js.
+
+3) Importamos react, el componente GifGridItem.js y shallow de 
+enzyme:
+     import React from 'react';
+     import { shallow } from "enzyme";
+     import GifGridItem from "../components/GifGridItem";
+
+4) Hacemos las pruebas correspondientes:
+     describe( 'Pruebas al componente <GifGridItem />', () => {
+
+          test( 'Debe mostrar el componente <GifGridItem /> correctamente', () => {
+               
+               const wrapper = shallow( <GifGridItem /> );
+
+               expect( wrapper ).toMatchSnapshot();
+          } );
+     } );
+
+Cuando hacemos esta prueba, nos crea un snapshot del componente:
+     // Jest Snapshot v1, https://goo.gl/fbAQLP
+
+     exports[`Pruebas al componente <GifGridItem /> Debe mostrar el componente <GifGridItem /> correctamente 1`] = `
+     <div
+       className="card animate__animated animate__zoomIn"
+     >
+       <img />
+       <p>
+         ...
+       </p>
+     </div>
+     `;
+
+Al realizar la prueba aparece un error que dice que no se puede
+leer la propiedad substr de undefined, es decir que la sentencia
+title.substr( 0, 15 ) no funciona correctamente, entonces si le
+quitamos la propiedad .substr( 0, 15 ) y dejamos solo title, la 
+prueba funciona correctamente:
+     return (
+          <div className="card animate__animated animate__zoomIn">
+              <img src={ url } alt={ title }></img>
+              {/* limita el contenido del texto */}
+              {/* <p>{ title.substr( 0, 15 ) }...</p> */}
+              <p>{ title }</p> <------------------------------
+          </div>
+     );
+

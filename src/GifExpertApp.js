@@ -5,14 +5,14 @@ import { GifGrid } from './components/GifGrid';
 import './index.css';
 
 // Creamos el functional component
-export const GifExpertApp = () => {
+export const GifExpertApp = ({ defaultCategories = [] }) => {
 
      // lista de categorías:
 
      // Usamos un Hook
      // const [categories, setCategories] = useState( [ 'One Punch', 'Samurai X', 'Dragon ball Z' ] );
 
-     const [categories, setCategories] = useState( [] );
+     const [categories, setCategories] = useState( defaultCategories );
 
      // TAREA
      // Al oprimir el botón agregar, debe agregar un nuevo 

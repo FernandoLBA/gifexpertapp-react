@@ -1,0 +1,49 @@
+27/04/2021.
+
+IMPLEMENTANDO PROPTYPES Y ACTUALIZAR SNAPSHOTS.
+
+La prueba que hicimos, no está correctamente llevada a cabo,
+el componente GifGridItem.js recibe en sus props el title y La
+url, para que se muestre correctamente.
+
+TAREA------------
+1) Hacer que sean requeridos los valores title y url en el
+componente GifGridItem y que sean de tipo string.
+
+2) Agregarle esos argumentos al componente en el shallow de la 
+prueba unitaria.
+
+3) Actualizar el snapshot con los cambios.
+
+SOLUCIÓN:
+
+Importamos los proptypes para usarlos en el componente 
+GifGridItem:
+     import PropTypes from 'prop-types';
+
+El shortcut del teclado para importarlo rápido es:
+     impt
+
+Luego le colocamos los requerimientos para los proptypes al 
+componente GifGridItem:
+     GifGridItem.propTypes = {
+          title: PropTypes.string.isRequired,
+          url: PropTypes.string.isRequired
+     };
+
+Luego escribimos el código y queda así:
+     describe( 'Pruebas al componente <GifGridItem />', () => {
+
+          const title = 'Un título';
+          const url = 'https://localhost/algo.jpg';
+
+          test( 'Debe mostrar el componente <GifGridItem /> correctamente', () => {
+               
+               const wrapper = shallow( <GifGridItem title={ title } url={ url }/> );
+
+               expect( wrapper ).toMatchSnapshot();
+          } );
+     } );
+
+Actualizamos el snapshot, una vez aparezca el error en la test 
+suite, presionamos la tecla u para hacer update y listo.

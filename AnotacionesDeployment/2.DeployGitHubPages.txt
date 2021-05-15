@@ -60,3 +60,14 @@ legible.
 locales, que le coloquemos un punto delante y un slash sino lo 
 tienen ./ en el head y en los scripts al final del body.
 
+Y luego hacemos el despliegue a github nuevamente, 
+git add .
+
+git commit -m "mensaje"
+
+git push origin main
+
+Hay que esperar que github pages vuelva a desplegar la web y nos
+muestre el enlace en verde.
+
+Y listo, página funcionando.

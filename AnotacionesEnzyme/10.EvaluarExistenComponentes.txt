@@ -1,0 +1,51 @@
+29/04/2021.
+
+EVALUAR SI EXISTEN COMPONENTES.
+
+Trabajamos con el componente GifGrid.js.
+
+En la prueba anterior evaluamos el componente en base a un 
+snapshot, sin embargo si colocamos un array vacío en el llamado
+a useFetchGifs.mockReturnValue, la prueba de igual manera 
+pasará, pero nosotros deseamos que sea estricta, que en verdad
+revise los valores que les mandamos en el array.
+
+En el archivo de pruebas GifGrid.test.js vamos a importar la
+librería de testing del jest-dom para que vscode nos ayude con 
+el autocompletado de los métodos y propiedades:
+     import '@testing-library/jest-dom';
+
+Nuestro 2do test queda así:
+     test( 'Debe mostrar items cuando se cargan imágenes con el custom hook useFetchGifs', () => {
+          
+          // Creamos un array de objetos con datos retornados por el helper getGifs
+          const gifs = [{
+               id: 'ABC',
+               title: 'Cualquier cosa',
+               url: 'https://localhost/cualquier/cosa.jpg'
+          }];
+
+          // le mandamos el array gifs al state de useFetchGifs
+          useFetchGifs.mockReturnValue({
+               data: gifs,
+               loading: false     
+          });
+
+          const wrapper = shallow( <GifGrid category={ category }/> );
+
+          // Esta es la básica
+          expect( wrapper ).toMatchSnapshot();
+
+          // Estas son más precisas y específicas <------------
+          expect( wrapper.find( 'p' ).exists() ).toBe( false );
+          expect( wrapper.find( 'GifGridItem' ).length ).toBe( gifs.length );
+     } );
+
+-El segundo expect revisa si el loading del componente GifGrid 
+es true, mostrará el párrafo con el texto "loading...", pero si 
+es false quiere decir que está mostrará los resultados de la búsqueda, la prueba revisa si el párrafo NO existe en el snapshot.
+
+-El tercer expect revisa si el componente GifGridItems existe o 
+se muestra, este expect revisa que la cantidad gifs que contiene
+el componente GifGridItems sea la misma que contiene el array 
+gifs.

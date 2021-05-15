@@ -1,0 +1,38 @@
+28/04/2021.
+
+PRUEBAS DEL COMPONENTE AddCategory.
+
+Vamos a trabajar con el componente AddCategory.
+
+1) Abrimos el componente AddCategory y le colocamos los 
+proptypes como requeridos:
+     AddCategory.propTypes = {
+          setCategories: PropTypes.func.isRequired
+     };
+
+2) Creamos el archivo de pruebas respetando la estructura.
+
+3) Abrimos el archivo de pruebas AddCategory.test.js y le 
+creamos una prueba de mostrar el componente correctamente:
+     import React from 'react';
+     import { shallow } from 'enzyme';
+     import { AddCategory } from '../../components/AddCategory';
+
+
+     describe( 'Pruebas al componente <AddCategory />', () => {
+          
+          // creamos una función
+          const setCategories = () => {};
+          
+          // le mandamos la función requerida al componente
+          const wrapper = shallow( <AddCategory setCategories={ setCategories } /> );
+
+          test('Debe mostrar el componente <AddCategory /> correctamente', () => {
+               
+               expect( wrapper ).toMatchSnapshot();
+          });
+     } );
+
+-El componente debe recibir como propTypes una función, por eso
+creamos una función, no importa que no haga nada, es para 
+cumplir con los requerimientos de propTypes del componente.

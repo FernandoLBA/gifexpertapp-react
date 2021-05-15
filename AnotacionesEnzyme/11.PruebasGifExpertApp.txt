@@ -1,0 +1,46 @@
+07/05/2021.
+
+PRUEBAS DEL COMPONENTE GifExpertApp.
+
+1) Creamos el archivo de pruebas GifExpertApp.test.js.
+
+2) Vamos a crear una prueba que haga match con el snapshot:
+     test('Debe hacer match el componente con el snapshot', () => {
+
+          // Como sus props no son obligatorias podemos 
+          // simplemente renderizarlo así
+          const wrapper = shallow( <GifExpertApp /> );
+
+          expect( wrapper ).toMatchSnapshot();
+     });
+
+3) Vamos a crear una prueba que muestre una lista de categorías:
+     test('Debe mostrar una lista de categorias', () => {
+          const categories = [ 'Goku', 'Vegeta' ]; <--------
+
+          const wrapper = shallow( <GifExpertApp defaultCategories={ categories } />); <------------
+
+          expect( wrapper ).toMatchSnapshot();
+
+          expect( wrapper.find( 'GifGrid' ).length ).toBe( categories.length ); <--------
+     });
+
+-Le colocamos al componente GifExpertApp.js que reciba unas 
+categorías que contengan un arreglo vacío, el cual será su 
+estado inicial en el useState, y este arreglo vacío lo debe llenar el usuario:
+     export const GifExpertApp = ({ defaultCategories = [] }) => {
+
+          const [categories, setCategories] = useState( defaultCategories );
+
+     -El arreglo se llama defaultCategories el cual inicia como 
+     un arreglo vacío. 
+     -En el useState se reemplazó el arreglo vacío existente [] 
+     por el prop defaultCategories que también es un arreglo 
+     vacío.
+
+-Creamos un arreglo de categorias y se la pasamos al componente 
+GifGrid dentro del componente GifExpertApp.
+
+-Revisa que el tamaño del las categories que recibió el 
+componente GifGrid sea igual al arreglo de categories de la 
+prueba.

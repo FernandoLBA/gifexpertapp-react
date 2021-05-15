@@ -1,0 +1,76 @@
+14/05/2021.
+
+CUSTOMHOOK - waitForNextUpdate
+
+Trabajaremos con el archivo useFecthGifs.test.js.
+
+1) Escribimos el siguiente código en el archivo de pruebas:
+     test('debe retornar un arreglo de imágenes y el loading en false', async() => {
+          const { result, waitForNextUpdate } = renderHook( () => useFetchGifs( 'iron maiden' ) );
+
+          await waitForNextUpdate();
+
+          const { data, loading } = result.current;
+
+          expect( data ).toEqual( [] );
+          expect( loading ).toBe( false );
+     });
+
+-La función waitForNextUpdate revisa un próximo cambio en el 
+estado del hook, es asíncrona. 
+Esta función retorna una promesa, y esta promesa indicará cuando haya ocurrido un cambio en el state del hook.
+Por lo tanto se convierten las pruebas en async await.
+-Desestructuramos la función waitForNextUpdate y result del 
+renderHook.
+-Antes de desestructurar result, colocamos el 
+waitForNextUpdate.
+-Esta prueba lanza el siguiente error:
+      Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
+
+     -Esto se debe a que cuando se ejecuta la primera prueba, se
+     dispara el useEffect, la prueba termina y hace el unmount 
+     de el customHook que estamos probando, sin embargo al hacer
+     el unmount va a disparar el setState del useEffect.
+     -La función waitForNextUpdate se encarga de hacer las 
+     limpiezas pero afecta también las otras pruebas que se
+     realicen en el customHook.
+
+2) Para solucionar el error, vamos a la primera prueba y hacemos lo siguiente:
+     test('Debe retornar el estado inicial', async() => {
+
+          const { result, waitForNextUpdate } = renderHook( () => useFetchGifs( 'Goku' ) );
+          
+          const { data, loading } = result.current;
+          
+          await waitForNextUpdate();
+
+          expect( data ).toEqual( [] );
+          expect( loading ).toBe( true );
+     });
+
+-Convertimos la prueba en async await, ya que nuestro 
+customHook trabaja contenido asíncrono, al hacer fetch a la
+promesa retornada por el helper getGifs.
+-Desestructuramos la función waitForNextUpdate del renderHook.
+-Colocamos el await waitForNextUpdate(); después del 
+destructuring, pra que espere que se haga el update, antes de 
+que limpie cualquier registro en el customHook.
+
+3) Luego hacemos lo siguiente en la segunda prueba:
+     test('debe retornar un arreglo de imágenes y el loading en  false', async() => {
+          const { result, waitForNextUpdate } = renderHook( () => useFetchGifs( 'iron maiden' ) );
+
+          await waitForNextUpdate();
+
+          const { data, loading } = result.current;
+
+          expect( data.length ).toBe( 10 );
+          expect( loading ).toBe( false );
+     });
+
+-Desestructuramos waitForNextUpdate de renderHook.
+-Colocamos el await waitForNextUpdate(); antes de desestructurar
+result.current.
+-Desestructuramos data y loading del result.current.
+-Hacemos los expect, que el tamaño de data sea igual a 10 y el
+loading sea false.
